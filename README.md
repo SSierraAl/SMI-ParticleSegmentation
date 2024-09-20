@@ -4,6 +4,11 @@
 
 This project focuses on segmenting induced modulation signals from an SMI sensor as microparticles pass through the laser sensing volume. It establishes the initial signal processing for acquisition and sets the stage for further processing and machine learning algorithms for single-particle classification.
 
+This repository contains the code, datasets, and instructions for reproducing the results presented in the paper:
+"Adaptive Single Micro-Particle Detection and Segmentation in Self-Mixing Interferometry Signal"
+Authors: Sebastián Sierra-Alarcón, Julien Perchoux, Francis Jayat, Clement Tronche, Santiago S. Pérez and Adam Quotb
+In progress to be published: [Journal/Conference Name], [Year]
+
 ## **Table of Contents**
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -111,6 +116,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or issues, please contact:
 
-- **[Author Name]** - [email@example.com]
+- **[Author Name]** - [sebsieal@hotmail.com]
 - **GitHub Issues:** Open an issue on the repository
 
