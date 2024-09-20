@@ -27,7 +27,6 @@ This repository contains the main codes involved in the signal processing techni
 
 
 
-
 ## **Installation**
 
 ### Prerequisites
@@ -44,12 +43,12 @@ This repository contains the main codes involved in the signal processing techni
     python3 -m venv venv
     source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
     ```
-
+    
 3. **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-
+    
 ## **Usage**
 
 - **Data Preprocessing:**  
