@@ -37,7 +37,6 @@ This repository contains the main codes involved in the signal processing techni
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/SSierraAl/SMI-ParticleSegmentation.git
-    cd Particle_Segmentation
     ```
 
 2. **Create a virtual environment:**
