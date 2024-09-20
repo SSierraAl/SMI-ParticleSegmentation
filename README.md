@@ -54,13 +54,13 @@ This repository contains the main codes involved in the signal processing techni
 ## **Usage**
 
 - **Data Preprocessing:**  
-    Run the data preprocessing script to prepare the datasets.
+    Run the data preprocessing script to prepare all the datasets.
     ```bash
     python main.py --input Particles_Data/Raw_Xum --output Particles_Data/DB_Xum
     ```
 
 - **Visualization:**  
-    Evaluate the final segmentation.
+    If you want to obserb the general steps without go deeper you can check the following notebook.
     Visualization.ipynb
     ```
 
