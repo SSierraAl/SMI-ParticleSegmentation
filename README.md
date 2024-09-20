@@ -27,7 +27,6 @@ This repository contains the main codes involved in the signal processing techni
 
 
 
-
 ## **Installation**
 
 ### Prerequisites
@@ -37,7 +36,6 @@ This repository contains the main codes involved in the signal processing techni
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/SSierraAl/SMI-ParticleSegmentation.git
-    cd Particle_Segmentation
     ```
 
 2. **Create a virtual environment:**
@@ -45,24 +43,24 @@ This repository contains the main codes involved in the signal processing techni
     python3 -m venv venv
     source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
     ```
-
+    
 3. **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
-
+    
 ## **Usage**
 
 - **Data Preprocessing:**  
-    Run the data preprocessing script to prepare the datasets.
+    Run the data preprocessing script to prepare all the datasets.
     ```bash
     python main.py --input Particles_Data/Raw_Xum --output Particles_Data/DB_Xum
     ```
 
 - **Visualization:**  
-    Evaluate the final segmentation.
+    If you want to obserb the general steps without go deeper you can check the following notebook.
     Visualization.ipynb
-    ```
+    
 
 ## **Contributing**
 
