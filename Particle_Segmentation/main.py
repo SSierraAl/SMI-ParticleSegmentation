@@ -11,9 +11,9 @@ Name_Folder = ['Raw_2um',  # Data for particles with a size of 2 micrometers
                'Raw_10um']  # Data for particles with a size of 10 micrometers
 
 # Corresponding names of folders where processed data will be saved
-Final_Folder = ['DB_10um',  # Folder for processed data of 10 micrometer particles
+Final_Folder = ['DB_2um',  # Folder for processed data of 10 micrometer particles
                 'DB_4um',   # Folder for processed data of 4 micrometer particles
-                'DB_2um']   # Folder for processed data of 2 micrometer particles
+                'DB_10um']   # Folder for processed data of 2 micrometer particles
 
 # Define experiment parameters
 # Acquisition frequency in Hertz (samples per second)
