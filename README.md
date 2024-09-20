@@ -14,8 +14,6 @@ This repository contains the code, datasets, and instructions for reproducing th
 2. [Project Structure](#project-structure)
 3. [Installation](#installation)
 4. [Usage](#usage)
-5. [Examples](#examples)
-6. [Results](#results)
 7. [Contributing](#contributing)
 8. [License](#license)
 9. [Contact](#contact)
