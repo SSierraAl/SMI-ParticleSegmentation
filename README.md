@@ -14,15 +14,14 @@ This repository contains the code, datasets, and instructions for reproducing th
 2. [Project Structure](#project-structure)
 3. [Installation](#installation)
 4. [Usage](#usage)
-5. [Examples](#examples)
-6. [Results](#results)
 7. [Contributing](#contributing)
 8. [License](#license)
 9. [Contact](#contact)
 
 ## **Introduction**
 
-This repository contains the main codes involved in the signal processing techniques for segmenting the signals for the SMi sensor, thinking it can be used as a basis for further research in the use of this technique for particle and cell classification. Additionally, if you´re interesting in the dataset constructed to be used for analysis, you can contact us; we are oppening to work with more laboratories and research teams.
+This repository contains the main codes involved in the signal processing techniques for segmenting the signals for the SMi sensor, thinking it can be used as a basis for further research in the use of this technique for particle and cell classification. Additionally, if you´re interesting in the full dataset, you can contact us; we are oppening to work with more laboratories and research teams.
+
 
 ## **Project Structure**
 
@@ -54,47 +53,16 @@ This repository contains the main codes involved in the signal processing techni
 
 ## **Usage**
 
-### Running the Code
-
 - **Data Preprocessing:**  
     Run the data preprocessing script to prepare the datasets.
     ```bash
-    python src/scripts/preprocess_data.py --input data/raw_data.csv --output data/processed_data.csv
+    python main.py --input Particles_Data/Raw_Xum --output Particles_Data/DB_Xum
     ```
 
-- **Model Training:**  
-    Train the model using the prepared dataset.
-    ```bash
-    python src/scripts/train_model.py --config configs/train_config.yaml
+- **Visualization:**  
+    Evaluate the final segmentation.
+    Visualization.ipynb
     ```
-
-- **Evaluation:**  
-    Evaluate the model performance.
-    ```bash
-    python src/scripts/evaluate_model.py --model results/trained_model.pth
-    ```
-
-### Configuration
-- All the configurable parameters for training, evaluation, and data processing are located in the `configs/` directory. You can modify these files as needed.
-
-## **Examples**
-
-Here are a few examples demonstrating how to use this repository:
-
-- [Example 1](notebooks/example_1.ipynb): Basic usage and training process.
-- [Example 2](notebooks/example_2.ipynb): Customizing the model and evaluation metrics.
-- [Example 3](notebooks/example_3.ipynb): Advanced techniques for performance tuning.
-
-## **Results**
-
-The main results and trained models can be found in the `results/` directory. We provide:
-- **Trained Models:** Pre-trained models used in our experiments.
-- **Logs:** Training and evaluation logs for reproducibility.
-- **Evaluation Metrics:** Detailed performance metrics of our experiments.
-
-### Replicating Results
-
-To replicate the results presented in our paper, follow the steps outlined in the `replicate_results.md` file.
 
 ## **Contributing**
 
@@ -106,8 +74,6 @@ Contributions are welcome! If you would like to contribute to this project, plea
 4. Push to the branch: `git push origin feature-name`.
 5. Open a pull request.
 
-Please see the `CONTRIBUTING.md` file for more details.
-
 ## **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -116,6 +82,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or issues, please contact:
 
-- **[Author Name]** - [sebsieal@hotmail.com]
+- **[Sebastian Sierra ]** - [sebsieal@hotmail.com]
 - **GitHub Issues:** Open an issue on the repository
 
