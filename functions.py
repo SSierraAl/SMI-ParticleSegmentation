@@ -22,8 +22,8 @@ def FFT_calc(datos, samplefreq):
         Phase spectrum of the signal.
     """
     n = len(datos)  # Length of the data
-
     # Perform FFT and calculate amplitude and phase
+    datos = np.asarray(datos, dtype=np.float64)
     fft_result = np.fft.rfft(datos)  # Compute FFT
     freq_fft = np.fft.rfftfreq(len(datos), 1 / samplefreq)  # Corresponding frequencies
     amplitude = np.abs(fft_result)  # Magnitude of the FFT
@@ -252,3 +252,210 @@ def adjust_mask_and_extract(data_X, highlight_mask, desired_length=1970):
     adjusted_mask[start:end + 1] = True  # Set the adjusted mask range to True
 
     return adjusted_mask
+
+
+
+
+#   Load multiple files
+################################################################################
+def  Load_New_Data(filepath, newdata):
+    if newdata==True:
+        folder_path = filepath
+        file_names = sorted(os.listdir(folder_path))
+        data_list = []
+        del file_names[0]
+        for file_name in file_names:
+            file_path = os.path.join(folder_path, file_name)
+            data = np.load(file_path)
+            data_list.append(data)
+        #np.save('outputConcatenatedData.npy', data_list)
+        df = pd.DataFrame(data_list)
+
+        Data_Frame= df.transpose()
+        num_cols = Data_Frame.shape[1]
+        interval = 10
+
+        for i in range(num_cols):
+            pos = i // interval
+            exp = i % interval
+            col_name = f'Pos{pos}_exp{exp}'
+            col_name=file_names[i]
+            Data_Frame.rename(columns={i: col_name}, inplace=True)
+        Data_Frame.to_csv('DataframewithOrder.csv', index=False)
+
+    else:
+        Data_Frame = pd.read_csv('./DataframewithOrder.csv')
+
+    return Data_Frame
+
+# Particle and Anomalies Validation ###########################################
+
+def particle_anomalies_validation(anomalies,valid_zones,data_X,y_Filtrada,t,line_Graph_Line, Green_Group, Yellow_Group, Red_Group):
+
+    if anomalies: 
+        for aa in anomalies:
+            aa=list(aa)
+            if aa !=(0,0):
+                if aa[0]<3:
+                    aa[0]=3
+                if aa[1]+3>=len(t):
+                    aa[1]=-4
+                # Add Span for start
+                highlight_mask = (data_X >= t[aa[0]-3]) & (data_X <= t[aa[1]+3])
+
+                highlight_mask=adjust_mask_and_extract(data_X, highlight_mask, 2500)
+
+                valid_P_x=data_X[highlight_mask]
+                valid_P_y=y_Filtrada[highlight_mask]
+
+                x_data=np.linspace(0, len(valid_P_x), len(valid_P_x))
+                valid_P_y2 = (valid_P_y - np.min(valid_P_y)) / (np.max(valid_P_y) - np.min(valid_P_y))
+                # Step 2: Scale to -1 to 1
+                valid_P_y2 = 2 * valid_P_y2 - 1
+                valid_P_y2=valid_P_y-np.mean(valid_P_y)
+                # Ajuste de curva utilizando la función gaussiana con amplitud inicial más alta
+                valid_P_y2 = np.abs(hilbert(valid_P_y))
+                try:
+                    optimized_params, _ = curve_fit(gaussian, x_data, valid_P_y2)
+                    # Obtener los parámetros optimizados
+                    amplitude, mean, stddev = optimized_params
+                    amplitude = amplitude/ np.max((amplitude))
+                    amplitude=amplitude*max(valid_P_y)
+                    y_curve = gaussian(x_data, amplitude, mean, stddev)
+                    if (max(y_curve)> y_curve[0]+0.05) and (max(y_curve)> y_curve[-1]+0.05):
+                        line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="yellow", legend_label="P_anomaly_fit")
+                        line_Graph_Line.line(valid_P_x, y_curve, line_width=2, line_color="yellow")
+                        Yellow_Group=Yellow_Group+1
+                    else:
+                        line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="red", legend_label="P_anomaly_fit")
+                        Yellow_Group=Yellow_Group+1
+                        #filterImpact.line(valid_P_x, y_curve, line_width=2, line_color="red", line_alpha=0.5)
+                except:
+                    line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="red", legend_label="P_anomaly")
+                    Red_Group=Red_Group+1
+
+    if valid_zones: 
+        for vv in valid_zones:
+            vv=list(vv)
+            if vv != (0,0):
+                if vv[0]<3:
+                    vv[0]=3
+                if vv[1]+3>=len(t):
+                    vv[1]=-4
+                # Add Span for start
+                highlight_mask = (data_X >= t[vv[0]-3]) & (data_X <= t[vv[1]+3])
+
+                highlight_mask=adjust_mask_and_extract(data_X, highlight_mask, 2500)
+
+                valid_P_x=data_X[highlight_mask]
+                valid_P_y=y_Filtrada[highlight_mask]
+                #filterImpact.line(valid_P_x, valid_P_y, line_width=2, line_color="green", legend_label="Valid_P")
+                x_data=np.linspace(0, len(valid_P_x), len(valid_P_x))
+                valid_P_y2 = (valid_P_y - np.min(valid_P_y)) / (np.max(valid_P_y) - np.min(valid_P_y))
+                # Step 2: Scale to -1 to 1
+                valid_P_y2 = 2 * valid_P_y2 - 1
+                valid_P_y2=valid_P_y-np.mean(valid_P_y)
+                # Ajuste de curva utilizando la función gaussiana con amplitud inicial más alta
+                valid_P_y2 = np.abs(hilbert(valid_P_y))
+                initial_params = [np.max(valid_P_y2)*10, np.argmax(valid_P_y2), 1.0]
+                try:
+                    optimized_params, _ = curve_fit(gaussian, x_data, valid_P_y2)
+                    # Obtener los parámetros optimizados
+                    amplitude, mean, stddev = optimized_params
+                    amplitude = amplitude/ np.max((amplitude))
+                    amplitude=amplitude*max(valid_P_y)
+                    y_curve = gaussian(x_data, amplitude, mean, stddev)
+                    if (max(y_curve)> y_curve[0]+0.05) and (max(y_curve)> y_curve[-1]+0.05):
+                        line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="green", legend_label="Valid_P")
+                        line_Graph_Line.line(valid_P_x, y_curve, line_width=2, line_color="green")
+                        Green_Group=Green_Group+1
+                    else:
+                        line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="yellow", legend_label="P_No_Fit")
+                        Yellow_Group=Yellow_Group+1
+                        #filterImpact.line(valid_P_x, y_curve, line_width=2, line_color="yellow",line_alpha=0.5)
+                except:
+                    line_Graph_Line.line(valid_P_x, valid_P_y, line_width=2, line_color="yellow", legend_label="P_No_Fit")
+                    Yellow_Group=Yellow_Group+1
+
+    return Green_Group, Yellow_Group, Red_Group
+
+    #########################################################
+    ##########################################################
+
+
+    # Particle Estimation ###########################################
+def particle_estimation(FFT_Amp,FFT_Freq,Particle_Params, timeZone,Adq_Freq):
+    
+    laser_lambda=Particle_Params['laser_lambda']
+    angle=Particle_Params['angle']
+    distance=Particle_Params['beam_spot_size']
+
+    doppler_peak = np.argmax(FFT_Amp)
+    doppler_peak = round(FFT_Freq[doppler_peak])
+
+    speed=((doppler_peak*laser_lambda)/(abs(np.sin(np.deg2rad(angle)))*2))
+
+    time= (timeZone/1000)/speed
+
+
+    return doppler_peak, speed, time
+
+
+
+
+#FWHW ###############################################################################
+def get_full_width(x: np.ndarray, y: np.ndarray, height: float = 0.5) -> float:
+    height_half_max = np.max(y) * height
+    index_max = np.argmax(y)
+    x_low = np.interp(height_half_max, y[:index_max+1], x[:index_max+1])
+    x_high = np.interp(height_half_max, np.flip(y[index_max:]), np.flip(x[index_max:]))
+
+    return x_high, x_low
+
+
+
+
+
+#Load and concatenate multiples files
+def GetLoad_Folder(directory,name_especific, new_data):
+    print(name_especific)
+    if new_data==True:
+        data = []        
+        npy_files = [file for file in os.listdir(directory) if file.endswith('.npy')]
+        print("Number of files")
+        print(len(npy_files))
+        print('-----------------')
+        # Read each .npy file and append the data to the list
+        for file in npy_files:
+            file_path = os.path.join(directory, file)
+            file_data = np.load(file_path)
+            data.append(file_data)
+        # Convert the list of data into a Numpy array
+        data = np.array(data,dtype=object)
+        np.save(('./Particle_Segmentation/Temporal_Files/'+name_especific+'.npy'), data)
+    else:
+        data = np.load('./Particle_Segmentation/Temporal_Files/'+name_especific+'.npy')
+    return data
+
+
+
+# average FFT 
+def AverageFFT(data_array,freq_cut_inf, freq_cut_sup, filterorder, samplefreq):
+    freq_ind=0
+    Freq_Data=pd.DataFrame()
+    for i, dataset in enumerate(data_array):
+        dataset= butter_bandpass_filter(dataset, freq_cut_inf, freq_cut_sup, filterorder, samplefreq)
+        amp, freq_ind2, phase = FFT_calc(dataset, samplefreq)
+        # Ajuste solo por un lio con los archivos de particulas de 4um
+        if(len(freq_ind2)==950):
+            pass
+        else:
+            freq_ind=freq_ind2
+            amp=pd.Series(amp)
+            Freq_Data=pd.concat([Freq_Data, amp], axis=1)
+
+    DataAVG=(Freq_Data.mean(axis=1))
+
+    return DataAVG, freq_ind
+
+

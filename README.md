@@ -25,7 +25,7 @@ This repository contains the main codes involved in the signal processing techni
   ![General view](det_alg.png)
 
 
-   ![General view](det_alg_2.png)
+   ![General view 2](det_alg_2.png)
 
 
 
@@ -54,7 +54,7 @@ This repository contains the main codes involved in the signal processing techni
     ```bash
     pip install -r requirements.txt
     ```
-    
+
 ## **Usage**
 
 - **Data Preprocessing:**  
@@ -63,10 +63,21 @@ This repository contains the main codes involved in the signal processing techni
     python main.py --input Particles_Data/Raw_Xum --output Particles_Data/DB_Xum
     ```
 
-- **Visualization:**  
+- **Fast Visualization:**  
     If you want to obserb the general steps without go deeper you can check the following notebook.
     Visualization.ipynb
+
+- **Interactive Analysis:**  
+    To explored the different files you can use the interactive server developed
+    Interactive_Server.py
     
+    ```bash
+    bokeh serve --show .\Interactive_Server.py
+    ```
+
+    ![General view 2](Interactive.png)
+
+
 
 ## **Contributing**
 
