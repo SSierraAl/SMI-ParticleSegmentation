@@ -20,7 +20,7 @@ This repository contains the code, datasets, and instructions for reproducing th
 
 ## **Introduction**
 
-This repository contains the main codes involved in the signal processing techniques for segmenting the signals for the SMi sensor, thinking it can be used as a basis for further research in the use of this technique for particle and cell classification. Additionally, if you´re interesting in the full dataset, you can contact us; we are oppening to work with more laboratories and research teams.
+This repository contains the main codes involved in the signal processing techniques for segmenting the signals for the SMi sensor, thinking it can be used as a basis for further research in the use of this technique for particle and cell classification. Additionally, if you´re interesting in the full dataset (~1000 samples per particle size), you can contact us; we are oppening to work with more laboratories and research teams.
 
   ![General view](det_alg.png)
 
